@@ -47,7 +47,7 @@ function App() {
     setFormStatus({ loading: true, success: null, error: null });
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch('https://ranjith-portfolio-gjx8.onrender.com/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
