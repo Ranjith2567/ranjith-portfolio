@@ -314,14 +314,18 @@ function App() {
             transition={{ duration: 0.8, delay: loading ? 2.5 : 0.4 }}
             className={`relative w-full h-full rounded-[2rem] lg:rounded-[3rem] overflow-hidden border shadow-[0_0_50px_rgba(0,0,0,0.3)] ${isDarkMode ? 'bg-slate-900/50 border-white/5' : 'bg-slate-100 border-slate-300 shadow-xl'}`}
           >
-            <video
+           <video
               ref={videoRef}
               src="/intro.mp4" 
               className="absolute inset-0 w-full h-full object-cover"
               loop
               autoPlay
-              muted={videoState.isMuted}
+              muted={true} /* Idhu dhaan page load aagum pothu mute-la vachirukum */
               playsInline
+              onLoadedMetadata={(e) => {
+                // Ensure initial state matches
+                e.target.muted = true;
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
             <div className="absolute bottom-6 right-6 z-20 flex items-center gap-3">
