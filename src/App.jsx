@@ -97,21 +97,21 @@ function App() {
     setTimeout(() => {
       let botResponse = "";
 
-      switch(responseKey) {
+     switch(responseKey) {
         case 'about':
-          botResponse = "Ranjith A is a Software Engineer specializing in MERN Stack architectures and AI/ML model evaluations. Active node terminal situated in Coimbatore, India.";
+          botResponse = "Ranjith is a passionate Full-Stack Developer who specializes in bridging MERN stack web architecture with intelligent AI/ML logic. He gained hands-on professional R&D experience during his internship at AS Global Soft Tech, where he focused on AI/ML algorithms and exploratory data preprocessing. Currently, he is actively seeking Software Developer and UI Developer roles in the Chennai and Coimbatore IT sectors, aiming to build scalable, user-centric web applications.";
           break;
         case 'stack':
-          botResponse = "EXPERT MATRIX:\n• Front-End: React, UI DOM layout architectures, Tailwind CSS\n• Back-End: Node.js, Express APIs, FastAPI infrastructure pipelines\n• Databases: MongoDB multi-clustering query optimization schemas\n• Data Science: Python processing matrices (Pandas, NumPy, Predictive analytics)";
+          botResponse = "EXPERT ARCHITECTURE MATRIX:\n• Front-End Engineering: Building highly responsive and dynamic interfaces using React.js, Vite, and Tailwind CSS, with fluid animations powered by Framer Motion.\n• Back-End & API Infrastructure: Designing secure, scalable RESTful APIs using Node.js and Express, along with Python-based FastAPI for specialized tasks.\n• Databases: Managing data workflows with MongoDB multi-clustering and query optimization schemas.\n• AI & Machine Learning: Leveraging Python for data processing and training supervised learning algorithms like Decision Trees and Random Forests.";
           break;
         case 'projects':
-          botResponse = "DEPLOYED LAB PACKETS:\n1. HealthEdge AI - Python telemetry models linked to Flask/MongoDB clusters.\n2. Student Campus Manager - Full Enterprise MERN deployment mapping structural components.\n3. TechScope Grocery - Dynamic React engine tracking matrix loops state design frameworks.";
+          botResponse = "DEPLOYED SYSTEM LAB PACKETS:\n1. File Recovery Utility: A high-performance, system-level tool engineered with Python and FastAPI to securely handle complex file restoration logic.\n2. Student Campus Manager: A full-scale enterprise MERN stack application featuring secure backend authentication and optimized state management for institutional workflows.\n3. HealthEdge AI: An intelligent medical telemetry analytics application driven by a custom-trained machine learning classifier, linked to Flask and MongoDB clusters.";
           break;
         case 'contact':
-          botResponse = "Direct data wire link established below! Alternatively, execute standard tracking packets transfer loop using the manual fields setup grid.";
+          botResponse = "Direct data wire link established! The fastest way to reach Ranjith is by executing a standard tracking packet transfer using the manual contact form below. Alternatively, you can connect with him directly on LinkedIn to discuss UI/UX pipelines, full-stack opportunities, or potential collaborations in Chennai and Coimbatore.";
           break;
         default:
-          botResponse = "Query tracking parameter unmapped. Select valid action protocol index item.";
+          botResponse = "Oops! I didn't quite catch that. Please select one of the valid options above to explore my portfolio.";
       }
 
       setIsBotTyping(false);
