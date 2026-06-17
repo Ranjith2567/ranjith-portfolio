@@ -52,7 +52,7 @@ function App() {
     setFormStatus({ loading: true, success: null, error: null });
 
     try {
-      const response = await fetch('https://ranjith-portfolio-gjx8.onrender.com/', {
+      const response = await fetch('https://ranjith-portfolio-gjx8.onrender.com/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -81,17 +81,34 @@ function App() {
     setCvFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // FINAL CV SUBMIT HANDLER WITH REAL BACKEND FETCH
   const handleCvSubmit = async (e) => {
     e.preventDefault();
     setCvFormStatus({ loading: true, success: null, error: null });
-    // Temporary simulation. Will connect to backend later.
-    setTimeout(() => {
-      setCvFormStatus({ loading: false, success: 'CV delivery initiated successfully!', error: null });
-      setTimeout(() => {
-        setIsCvModalOpen(false);
-        setCvFormStatus({ loading: false, success: null, error: null });
-      }, 2000);
-    }, 1500);
+
+    try {
+      const response = await fetch('https://ranjith-portfolio-gjx8.onrender.com/api/request-cv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cvFormData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setCvFormStatus({ loading: false, success: data.message, error: null });
+        setTimeout(() => {
+          setIsCvModalOpen(false);
+          setCvFormStatus({ loading: false, success: null, error: null });
+          setCvFormData({ type: 'Recruiter', name: '', company: '', email: '' }); // reset form
+        }, 3000);
+      } else {
+        setCvFormStatus({ loading: false, success: null, error: data.error });
+      }
+    } catch (err) {
+      console.error("Fetch Error: ", err);
+      setCvFormStatus({ loading: false, success: null, error: 'Cannot connect to backend engine.' });
+    }
   };
 
   // VIDEO CONTROLS
@@ -584,7 +601,7 @@ function App() {
               <div className="p-8 space-y-6">
                 <div>
                   <h3 className="text-2xl font-serif font-bold mb-2 flex items-center gap-2">📄 Request CV</h3>
-                  <p className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Enter your details to receive my official resume directly in your email inbox.</p>
+                  <p className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Enter your details to receive Ranjith's official resume directly in your email inbox.</p>
                 </div>
 
                 <form className="space-y-4" onSubmit={handleCvSubmit}>
@@ -602,7 +619,21 @@ function App() {
                   </div>
 
                   <input name="name" type="text" value={cvFormData.name} onChange={handleCvInputChange} required placeholder="Your Name (e.g. Liam Neumann)" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
-                  <input name="company" type="text" value={cvFormData.company} onChange={handleCvInputChange} placeholder="Company Name (e.g. Google)" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
+                  
+                  {/* --- NEW ADDED ANIMATION LAYER FOR COMPANY BOX --- */}
+                  <AnimatePresence>
+                    {cvFormData.type === 'Recruiter' && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <input name="company" type="text" value={cvFormData.company} onChange={handleCvInputChange} placeholder="Company Name (e.g. Google)" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
                   <input name="email" type="email" value={cvFormData.email} onChange={handleCvInputChange} required placeholder="Email Address" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
 
                   <button type="submit" disabled={cvFormStatus.loading} className="w-full py-4 mt-4 bg-gradient-to-r from-orange-600 to-orange-400 text-xs font-bold uppercase tracking-widest rounded-2xl text-white shadow-lg shadow-orange-500/20 disabled:opacity-50 hover:scale-[1.02] transition-transform cursor-pointer flex justify-center items-center gap-2">
