@@ -14,6 +14,11 @@ function App() {
   const [formData, setFormData] = useState({ name: '', role: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState({ loading: false, success: null, error: null });
 
+  // CV MODAL & DOWNLOAD STATE PIPELINES
+  const [isCvModalOpen, setIsCvModalOpen] = useState(false);
+  const [cvFormData, setCvFormData] = useState({ type: 'Recruiter', name: '', company: '', email: '' });
+  const [cvFormStatus, setCvFormStatus] = useState({ loading: false, success: null, error: null });
+
   // MULTIMEDIA REF AND CONTROLLER LAYER (HERO VIDEO)
   const videoRef = useRef(null);
   const [videoState, setVideoState] = useState({ isPlaying: true, isMuted: true });
@@ -64,6 +69,29 @@ function App() {
     } catch (err) {
       setFormStatus({ loading: false, success: null, error: 'Cannot connect to local backend engine.' });
     }
+  };
+
+  // CV HANDLERS
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleCvInputChange = (e) => {
+    const { name, value } = e.target;
+    setCvFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCvSubmit = async (e) => {
+    e.preventDefault();
+    setCvFormStatus({ loading: true, success: null, error: null });
+    // Temporary simulation. Will connect to backend later.
+    setTimeout(() => {
+      setCvFormStatus({ loading: false, success: 'CV delivery initiated successfully!', error: null });
+      setTimeout(() => {
+        setIsCvModalOpen(false);
+        setCvFormStatus({ loading: false, success: null, error: null });
+      }, 2000);
+    }, 1500);
   };
 
   // VIDEO CONTROLS
@@ -205,6 +233,7 @@ function App() {
             <a href="#experience" className="hover:text-orange-500 transition-colors">Experience</a>
             <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
             <a href="#projects" className="hover:text-orange-500 transition-colors">Projects</a>
+            <a href="#resume" className="hover:text-orange-500 transition-colors">Resume</a>
             <a href="#contact" className="hover:text-orange-500 transition-colors">Contact</a>
           </div>
 
@@ -243,7 +272,8 @@ function App() {
                 <a href="#experience" onClick={() => setIsMobileMenuOpen(false)} className="py-2 hover:text-orange-500 transition-colors">// 01. Experience</a>
                 <a href="#skills" onClick={() => setIsMobileMenuOpen(false)} className="py-2 hover:text-orange-500 transition-colors">// 02. Skills</a>
                 <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className="py-2 hover:text-orange-500 transition-colors">// 03. Projects</a>
-                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="py-2 hover:text-orange-500 transition-colors">// 04. Contact</a>
+                <a href="#resume" onClick={() => setIsMobileMenuOpen(false)} className="py-2 hover:text-orange-500 transition-colors">// 04. Resume</a>
+                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="py-2 hover:text-orange-500 transition-colors">// 05. Contact</a>
               </div>
             </motion.div>
           )}
@@ -337,7 +367,6 @@ function App() {
       <div className="w-full max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20 space-y-32 pb-32 relative z-10 pt-20 overflow-hidden">
 
         {/* EXPERIENCE TIMELINE */}
-        {/* Changed viewport trigger amount to 0.1 for mobile responsiveness */}
         <motion.section id="experience" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={containerVariants} className="space-y-12 scroll-mt-24">
           <div className="space-y-2">
             <span className="text-orange-500 text-xs font-bold tracking-widest uppercase">Industry History</span>
@@ -423,10 +452,34 @@ function App() {
           </div>
         </motion.section>
 
+        {/* CURRICULUM VITAE SECTION */}
+        <motion.section id="resume" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={containerVariants} className="space-y-8 scroll-mt-24 pt-12">
+          <div className="flex flex-col items-center text-center space-y-4">
+            <span className={`text-[10px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full border ${isDarkMode ? 'border-orange-500/30 bg-orange-500/10 text-orange-400' : 'border-orange-500/20 bg-orange-50 text-orange-600'}`}>
+              📄 Credentials
+            </span>
+            <h2 className="text-3xl md:text-5xl font-serif tracking-tight">Curriculum Vitae</h2>
+            <p className={`max-w-2xl text-sm leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+              A comprehensive log detailing my education history, corporate software engineering positions, and tool masteries. Print-ready design included.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
+              <button onClick={handlePrint} className="flex items-center gap-2 bg-gradient-to-r from-orange-600 to-orange-400 hover:scale-105 text-white px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-lg shadow-orange-500/20 cursor-pointer">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                Print CV Document
+              </button>
+              <button onClick={() => setIsCvModalOpen(true)} className={`flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all border cursor-pointer hover:scale-105 ${isDarkMode ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Download CV (PDF)
+              </button>
+            </div>
+          </div>
+        </motion.section>
+
         {/* CONTACT FORM SECTION */}
-        <motion.section id="contact" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={itemVariants} className="scroll-mt-24 max-w-2xl">
+        <motion.section id="contact" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={itemVariants} className="scroll-mt-24 max-w-2xl mx-auto pt-12">
           <div className="space-y-8">
-            <div className="space-y-2">
+            <div className="space-y-2 text-center md:text-left">
               <span className="text-orange-500 text-xs font-bold tracking-widest uppercase">Opportunities</span>
               <h3 className="text-3xl md:text-4xl font-serif tracking-tight">Start a Conversation</h3>
             </div>
@@ -440,8 +493,8 @@ function App() {
               <button type="submit" disabled={formStatus.loading} className="w-full py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-sm font-bold uppercase tracking-widest rounded-2xl text-white shadow-lg shadow-orange-500/20 disabled:opacity-50 hover:scale-[1.02] transition-transform cursor-pointer">
                 {formStatus.loading ? 'Sending...' : 'Send Message'}
               </button>
-              {formStatus.success && <p className="text-sm text-emerald-500 pt-2">{formStatus.success}</p>}
-              {formStatus.error && <p className="text-sm text-red-500 pt-2">{formStatus.error}</p>}
+              {formStatus.success && <p className="text-sm text-emerald-500 pt-2 text-center">{formStatus.success}</p>}
+              {formStatus.error && <p className="text-sm text-red-500 pt-2 text-center">{formStatus.error}</p>}
             </form>
           </div>
         </motion.section>
@@ -449,70 +502,120 @@ function App() {
         {/* FOOTER */}
         <footer className={`pt-12 border-t flex flex-col md:flex-row justify-between items-center gap-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
           <div className="text-2xl font-serif tracking-tight">Ranjith<span className="text-orange-500">.</span></div>
-          {/* SOCIAL LINKS IN FOOTER */}
           <SocialLinks />
           <p className={`text-[10px] tracking-widest uppercase ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>© 2026 RANJITH A • All Rights Reserved.</p>
         </footer>
       </div>
 
       {/* ==================== 3. FLOATING AI CHATBOT WIDGET ==================== */}
-      <div className="fixed bottom-6 right-6 z-50 font-sans text-sm flex flex-col items-end">
-        <AnimatePresence>
-          {isChatOpen && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.85, y: 30 }}
-              className={`w-[90vw] sm:w-80 md:w-96 h-[400px] border rounded-3xl overflow-hidden shadow-2xl flex flex-col mb-4 ${isDarkMode ? 'bg-[#0a0604] border-white/10' : 'bg-white border-slate-200'}`}
-            >
-              <div className={`border-b p-5 flex items-center justify-between ${isDarkMode ? 'border-white/10 bg-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-                  <span className={`text-[11px] font-bold tracking-widest uppercase ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>Ranjith_AI</span>
+      <div className="fixed bottom-6 right-6 z-40 font-sans text-sm flex flex-col items-end pointer-events-none">
+        <div className="pointer-events-auto flex flex-col items-end">
+          <AnimatePresence>
+            {isChatOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.85, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.85, y: 30 }}
+                className={`w-[90vw] sm:w-80 md:w-96 h-[400px] border rounded-3xl overflow-hidden shadow-2xl flex flex-col mb-4 ${isDarkMode ? 'bg-[#0a0604] border-white/10' : 'bg-white border-slate-200'}`}
+              >
+                <div className={`border-b p-5 flex items-center justify-between ${isDarkMode ? 'border-white/10 bg-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+                    <span className={`text-[11px] font-bold tracking-widest uppercase ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>Ranjith_AI</span>
+                  </div>
+                  <button onClick={() => setIsChatOpen(false)} className="text-slate-500 hover:text-orange-500 transition cursor-pointer">✕</button>
                 </div>
-                <button onClick={() => setIsChatOpen(false)} className="text-slate-500 hover:text-orange-500 transition cursor-pointer">✕</button>
-              </div>
 
-              <div className={`flex-1 p-5 overflow-y-auto space-y-4 flex flex-col ${isDarkMode ? 'bg-[#0a0604]' : 'bg-white'}`}>
-                {messages.map((msg, idx) => (
-                  <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`p-3.5 rounded-2xl max-w-[85%] text-xs leading-relaxed whitespace-pre-line ${msg.sender === 'user'
-                        ? 'bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-br-sm'
-                        : isDarkMode ? 'bg-white/10 text-slate-200 rounded-bl-sm' : 'bg-slate-100 text-slate-800 rounded-bl-sm'
-                      }`}>
-                      {msg.text}
+                <div className={`flex-1 p-5 overflow-y-auto space-y-4 flex flex-col ${isDarkMode ? 'bg-[#0a0604]' : 'bg-white'}`}>
+                  {messages.map((msg, idx) => (
+                    <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`p-3.5 rounded-2xl max-w-[85%] text-xs leading-relaxed whitespace-pre-line ${msg.sender === 'user'
+                          ? 'bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-br-sm'
+                          : isDarkMode ? 'bg-white/10 text-slate-200 rounded-bl-sm' : 'bg-slate-100 text-slate-800 rounded-bl-sm'
+                        }`}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                  {isBotTyping && (
+                    <div className="flex justify-start">
+                      <div className={`p-3 rounded-2xl text-xs animate-pulse ${isDarkMode ? 'bg-white/10 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>Typing...</div>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
+
+                <div className={`p-4 border-t grid grid-cols-2 gap-2 ${isDarkMode ? 'border-white/10 bg-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                  {['about', 'stack', 'projects', 'contact'].map((key, i) => (
+                    <button
+                      key={key}
+                      onClick={() => processChatQuery(key.toUpperCase(), key)}
+                      className={`py-2 px-3 text-center border rounded-xl text-[10px] font-bold tracking-wider uppercase transition cursor-pointer ${isDarkMode ? 'border-white/10 text-slate-400 hover:border-orange-500 hover:text-orange-500' : 'bg-white border-slate-200 text-slate-600 hover:border-orange-500 hover:text-orange-500'
+                        }`}
+                    >
+                      {key}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setIsChatOpen(!isChatOpen)}
+            className="w-14 h-14 rounded-full bg-gradient-to-r from-orange-600 to-orange-400 flex items-center justify-center text-white shadow-xl shadow-orange-500/20 cursor-pointer"
+          >
+            {isChatOpen ? <span className="text-xl font-bold">✕</span> : <span className="text-2xl">🤖</span>}
+          </motion.button>
+        </div>
+      </div>
+
+      {/* ==================== 4. CV DOWNLOAD MODAL ==================== */}
+      <AnimatePresence>
+        {isCvModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+              className={`w-full max-w-md border rounded-[2rem] overflow-hidden shadow-2xl relative ${isDarkMode ? 'bg-[#0a0604] border-white/10' : 'bg-white border-slate-200'}`}
+            >
+              <button onClick={() => setIsCvModalOpen(false)} className={`absolute top-5 right-5 text-xl cursor-pointer transition w-8 h-8 flex items-center justify-center rounded-full ${isDarkMode ? 'text-slate-400 hover:bg-white/10 hover:text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-black'}`}>✕</button>
+              
+              <div className="p-8 space-y-6">
+                <div>
+                  <h3 className="text-2xl font-serif font-bold mb-2 flex items-center gap-2">📄 Request CV</h3>
+                  <p className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Enter your details to receive my official resume directly in your email inbox.</p>
+                </div>
+
+                <form className="space-y-4" onSubmit={handleCvSubmit}>
+                  {/* Radio Selection */}
+                  <div className="space-y-3 pb-2 border-b border-white/5">
+                    <label className={`text-[10px] font-bold tracking-widest uppercase ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>I AM A:</label>
+                    <div className="flex gap-6">
+                      <label className={`flex items-center gap-2 text-sm cursor-pointer font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                        <input type="radio" name="type" value="Recruiter" checked={cvFormData.type === 'Recruiter'} onChange={handleCvInputChange} className="accent-orange-500 w-4 h-4 cursor-pointer" /> Recruiter
+                      </label>
+                      <label className={`flex items-center gap-2 text-sm cursor-pointer font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                        <input type="radio" name="type" value="Regular Visitor" checked={cvFormData.type === 'Regular Visitor'} onChange={handleCvInputChange} className="accent-orange-500 w-4 h-4 cursor-pointer" /> Regular Visitor
+                      </label>
                     </div>
                   </div>
-                ))}
-                {isBotTyping && (
-                  <div className="flex justify-start">
-                    <div className={`p-3 rounded-2xl text-xs animate-pulse ${isDarkMode ? 'bg-white/10 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>Typing...</div>
-                  </div>
-                )}
-                <div ref={chatEndRef} />
-              </div>
 
-              <div className={`p-4 border-t grid grid-cols-2 gap-2 ${isDarkMode ? 'border-white/10 bg-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                {['about', 'stack', 'projects', 'contact'].map((key, i) => (
-                  <button
-                    key={key}
-                    onClick={() => processChatQuery(key.toUpperCase(), key)}
-                    className={`py-2 px-3 text-center border rounded-xl text-[10px] font-bold tracking-wider uppercase transition cursor-pointer ${isDarkMode ? 'border-white/10 text-slate-400 hover:border-orange-500 hover:text-orange-500' : 'bg-white border-slate-200 text-slate-600 hover:border-orange-500 hover:text-orange-500'
-                      }`}
-                  >
-                    {key}
+                  <input name="name" type="text" value={cvFormData.name} onChange={handleCvInputChange} required placeholder="Your Name (e.g. Liam Neumann)" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
+                  <input name="company" type="text" value={cvFormData.company} onChange={handleCvInputChange} placeholder="Company Name (e.g. Google)" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
+                  <input name="email" type="email" value={cvFormData.email} onChange={handleCvInputChange} required placeholder="Email Address" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
+
+                  <button type="submit" disabled={cvFormStatus.loading} className="w-full py-4 mt-4 bg-gradient-to-r from-orange-600 to-orange-400 text-xs font-bold uppercase tracking-widest rounded-2xl text-white shadow-lg shadow-orange-500/20 disabled:opacity-50 hover:scale-[1.02] transition-transform cursor-pointer flex justify-center items-center gap-2">
+                    {cvFormStatus.loading ? 'Processing...' : '🚀 Request Delivery'}
                   </button>
-                ))}
+
+                  {cvFormStatus.success && <p className="text-xs text-center font-medium text-emerald-500 pt-2">{cvFormStatus.success}</p>}
+                </form>
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-
-        <motion.button
-          whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setIsChatOpen(!isChatOpen)}
-          className="w-14 h-14 rounded-full bg-gradient-to-r from-orange-600 to-orange-400 flex items-center justify-center text-white shadow-xl shadow-orange-500/20 cursor-pointer"
-        >
-          {isChatOpen ? <span className="text-xl font-bold">✕</span> : <span className="text-2xl">🤖</span>}
-        </motion.button>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
