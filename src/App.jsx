@@ -67,7 +67,7 @@ function App() {
         setFormStatus({ loading: false, success: null, error: data.error || 'Server rejected gateway packet.' });
       }
     } catch (err) {
-      setFormStatus({ loading: false, success: null, error: 'Cannot connect to local backend engine.' });
+      setFormStatus({ loading: false, success: null, error: "Server is waking up. Please try again." });
     }
   };
 
