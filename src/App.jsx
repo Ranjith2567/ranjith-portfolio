@@ -155,6 +155,12 @@ function App() {
         case 'contact':
           botResponse = "Direct data wire link established! The fastest way to reach Ranjith is by executing a standard tracking packet transfer using the manual contact form below. Alternatively, you can connect with him directly on LinkedIn to discuss UI/UX pipelines, full-stack opportunities, or potential collaborations in Chennai and Coimbatore.";
           break;
+          case 'experience':
+          botResponse = "PROFESSIONAL TIMELINE:\n• AI/ML R&D Intern: Engineered data pipelines and iteratively optimized predictive classification models.\n• MERN Stack Developer Intern: Architected scalable web applications, designed MongoDB schemas, and built secure RESTful APIs.";
+          break;
+          case 'resume':
+          botResponse = "CREDENTIALS & CV:\nYou can explore my complete education and professional history in the Curriculum Vitae section above. Feel free to print the document directly or use the 'Download CV (PDF)' option to receive a copy securely in your inbox!";
+          break;
         default:
           botResponse = "Oops! I didn't quite catch that. Please select one of the valid options above to explore my portfolio.";
       }
@@ -398,7 +404,9 @@ function App() {
               </div>
               <div className="text-[10px] font-bold tracking-widest text-orange-500 uppercase">Internship • AI & Research Development</div>
               <h4 className="text-xl font-bold font-serif">AI / ML R&D Intern</h4>
-              <p className={`text-sm leading-relaxed max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Contributed to research sprints involving exploratory data preprocessing, algorithmic evaluation, and feature engineering loops. Trained and verified predictive classification models using advanced ensemble methodologies.</p>
+              <p className={`text-sm leading-relaxed max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                Engineered robust data pipelines for exploratory preprocessing and complex feature extraction. Iteratively trained, validated, and optimized predictive classification models leveraging advanced ensemble learning architectures to drive data-centric solutions.
+              </p>
             </motion.div>
 
             <motion.div variants={itemVariants} className="relative space-y-2 group">
@@ -407,7 +415,7 @@ function App() {
               </div>
               <div className="text-[10px] font-bold tracking-widest text-orange-500 uppercase">Internship • Web Engineering</div>
               <h4 className="text-xl font-bold font-serif">MERN Stack Developer Intern</h4>
-              <p className={`text-sm leading-relaxed max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Designed and implemented production-grade web systems. Configured non-relational query schemas and pipelines inside MongoDB, orchestrated centralized REST endpoints using Express and Node.js environments.</p>
+              <p className={`text-sm leading-relaxed max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Developed and deployed dynamic enterprise-grade web solutions. Engineered efficient MongoDB aggregation pipelines and built robust, centralized REST API architectures utilizing Express and Node.js to ensure seamless integration and high system reliability.</p>
             </motion.div>
           </div>
         </motion.section>
@@ -448,10 +456,10 @@ function App() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { name: "HealthEdge AI", meta: "Python • ML • Flask • MongoDB", info: "Intelligent medical telemetry analytics application powered by a custom-trained machine learning classifier.", liveUrl: "https://healthedge-l5gz.onrender.com/" },
-              { name: "Student Manager", meta: "MERN Stack Enterprise Framework", info: "Full-featured institutional workflow automation system with optimized database read/write pipelines.", liveUrl: "https://smart-campus-manager.vercel.app/" },
-              { name: "Grocery Website", meta: "React.js • Tailwind CSS", info: "Responsive premium e-commerce web interface configuration for a modern grocery retail application.", liveUrl: "http://grocery.techscope.sbs" },
-              { name: "File Utility", meta: "FastAPI • Python Streams", info: "High-performance system-level data diagnostic command utility with async file-system buffers.", liveUrl: "#" }
+              { name: "HealthEdge AI", meta: "Python • ML • Flask • MongoDB", info: "Engineered a predictive medical analytics platform, leveraging a custom-trained machine learning classifier to process and analyze complex clinical telemetry streams.", liveUrl: "https://healthedge-l5gz.onrender.com" },
+              { name: "Student Manager", meta: "MERN Stack Enterprise Framework", info: "Architected a scalable institutional management platform, integrating complex workflow automation with highly optimized data pipelines and robust state management.", liveUrl: "https://smart-campus-manager.vercel.app/" },
+              { name: "Grocery Website", meta: "React.js • Tailwind CSS", info: "Developed a visually engaging, fully responsive web interface for a premium grocery retail application, optimized for seamless cross-device functionality and intuitive user journeys.", liveUrl: "http://grocery.techscope.sbs" },
+              { name: "File Utility", meta: "FastAPI • Python Streams", info: "Engineered a high-throughput CLI utility for system-level data diagnostics, leveraging asynchronous file-system buffering to optimize I/O operations and ensure rapid data processing.", liveUrl: "#" }
             ].map((proj, i) => (
               <motion.div key={i} variants={itemVariants} className={`p-8 rounded-3xl flex flex-col justify-between group transition-all duration-300 border ${isDarkMode ? 'bg-white/5 border-white/5 hover:bg-white/10' : 'bg-white border-slate-200 shadow-sm hover:shadow-md'}`}>
                 <div className="space-y-4">
@@ -545,8 +553,8 @@ function App() {
                   {messages.map((msg, idx) => (
                     <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`p-3.5 rounded-2xl max-w-[85%] text-xs leading-relaxed whitespace-pre-line ${msg.sender === 'user'
-                          ? 'bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-br-sm'
-                          : isDarkMode ? 'bg-white/10 text-slate-200 rounded-bl-sm' : 'bg-slate-100 text-slate-800 rounded-bl-sm'
+                        ? 'bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-br-sm'
+                        : isDarkMode ? 'bg-white/10 text-slate-200 rounded-bl-sm' : 'bg-slate-100 text-slate-800 rounded-bl-sm'
                         }`}>
                         {msg.text}
                       </div>
@@ -561,7 +569,7 @@ function App() {
                 </div>
 
                 <div className={`p-4 border-t grid grid-cols-2 gap-2 ${isDarkMode ? 'border-white/10 bg-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                  {['about', 'stack', 'projects', 'contact'].map((key, i) => (
+                 {['about', 'experience', 'stack', 'projects', 'resume', 'contact'].map((key, i) => (
                     <button
                       key={key}
                       onClick={() => processChatQuery(key.toUpperCase(), key)}
@@ -597,7 +605,7 @@ function App() {
               className={`w-full max-w-md border rounded-[2rem] overflow-hidden shadow-2xl relative ${isDarkMode ? 'bg-[#0a0604] border-white/10' : 'bg-white border-slate-200'}`}
             >
               <button onClick={() => setIsCvModalOpen(false)} className={`absolute top-5 right-5 text-xl cursor-pointer transition w-8 h-8 flex items-center justify-center rounded-full ${isDarkMode ? 'text-slate-400 hover:bg-white/10 hover:text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-black'}`}>✕</button>
-              
+
               <div className="p-8 space-y-6">
                 <div>
                   <h3 className="text-2xl font-serif font-bold mb-2 flex items-center gap-2">📄 Request CV</h3>
@@ -619,7 +627,7 @@ function App() {
                   </div>
 
                   <input name="name" type="text" value={cvFormData.name} onChange={handleCvInputChange} required placeholder="Your Name (e.g. Liam Neumann)" className={`w-full rounded-2xl px-5 py-3.5 text-sm focus:outline-none transition border ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-orange-500 text-white placeholder-slate-600' : 'bg-white border-slate-200 focus:border-orange-500 text-slate-900'}`} />
-                  
+
                   {/* --- NEW ADDED ANIMATION LAYER FOR COMPANY BOX --- */}
                   <AnimatePresence>
                     {cvFormData.type === 'Recruiter' && (
