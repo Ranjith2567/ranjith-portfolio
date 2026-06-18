@@ -30,8 +30,8 @@ const CvRequest = mongoose.model('CvRequest', cvRequestSchema);
 
 const transporter = nodemailer.createTransport({
   host: 'smtp-relay.brevo.com',
-  port: 465,
-  secure: true,
+  port: 2525,         // SMTP port
+  secure: false,      // true for 465, false for other ports
   auth: {
     user: process.env.BREVO_SMTP_LOGIN,
     pass: process.env.BREVO_SMTP_KEY
