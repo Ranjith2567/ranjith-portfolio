@@ -238,7 +238,7 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* ==================== TOP NAVIGATION HEADER ==================== */}
+      {/* === TOP NAVIGATION HEADER === */}
       <motion.header
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -303,7 +303,7 @@ function App() {
         </AnimatePresence>
       </motion.header>
 
-      {/* ==================== 1. HERO SECTION (WITH ENTRY ANIMATIONS) ==================== */}
+      {/* === 1. HERO SECTION (WITH ENTRY ANIMATIONS) === */}
       <div className="w-full max-w-[1600px] mx-auto min-h-screen flex flex-col lg:flex-row relative z-10 pt-20">
 
         {/* LEFT COLUMN: TEXT */}
@@ -386,7 +386,7 @@ function App() {
         </div>
       </div>
 
-      {/* ==================== 2. THE REST OF THE PORTFOLIO ==================== */}
+      {/* === 2. THE REST OF THE PORTFOLIO === */}
       <div className="w-full max-w-[1200px] mx-auto px-6 md:px-12 lg:px-20 space-y-32 pb-32 relative z-10 pt-20 overflow-hidden">
 
         {/* EXPERIENCE TIMELINE */}
@@ -532,7 +532,7 @@ function App() {
         </footer>
       </div>
 
-      {/* ==================== 3. FLOATING AI CHATBOT WIDGET ==================== */}
+      {/* === 3. FLOATING AI CHATBOT WIDGET === */}
       <div className="fixed bottom-6 right-6 z-40 font-sans text-sm flex flex-col items-end pointer-events-none">
         <div className="pointer-events-auto flex flex-col items-end">
           <AnimatePresence>
@@ -593,7 +593,7 @@ function App() {
         </div>
       </div>
 
-      {/* ==================== 4. CV DOWNLOAD MODAL ==================== */}
+      {/* ==== 4. CV DOWNLOAD MODAL ====*/}
       <AnimatePresence>
         {isCvModalOpen && (
           <motion.div
